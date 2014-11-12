@@ -22,7 +22,8 @@ class TodoApp < CommandLineApp
   def create
     puts "Please enter the new project name:\n"
     project_name = gets.chomp
-    @projects << project_name
+    project = Project.new(project_name)
+    @projects << project
   end
 
   def rename
@@ -41,30 +42,33 @@ class TodoApp < CommandLineApp
     list
   end
 
-  def edit_project
+  def edit
     project_to_edit = gets.chomp
-    puts "Editing Project:  #{project_to_edit}"
-  end
-
-  def list_tasks
+    puts "Editing Project: #{project_to_edit}"
     puts "'list' to list tasks"
+    puts "'create' to create a new task"
+    puts "'edit' to edit a task"
+    puts "'complete' to complete a task and remove it from the list"
   end
 
+  def back
 
-  def menu
-    looping = true
-    while looping
-      input = gets.chomp
-
-      if input == "edit_project"
-        edit_project
-      elsif input == "list_tasks"
-        list_tasks
-      else input == "quit"
-        break
-      end
-    end
   end
+
+  # def menu
+  #   looping = true
+  #   while looping
+  #     user_reply = gets.chomp
+  #
+  #     if user_reply == "edit_project"
+  #       edit_project
+  #     elsif user_reply == "list_tasks"
+  #       list_tasks
+  #     else user_reply == "quit"
+  #       break
+  #     end
+  #   end
+  # end
 
   def run
     puts "Welcome"
@@ -73,11 +77,11 @@ class TodoApp < CommandLineApp
     puts "'rename' to rename a project"
 
     puts "Please enter: "
-    input = gets.chomp
+    user_reply = gets.chomp
 
-    while input != "quit" do
+    while user_reply != "quit" do
 
-      case input
+      case user_reply
         when "list"
           list
         when "create"
@@ -86,14 +90,13 @@ class TodoApp < CommandLineApp
           rename
         when "delete"
           delete
-        # when "edit_project"
-        #   edit_project
-        # else "list_tasks"
-        #   list_tasks
-
+        when "edit"
+          edit
+        when "back"
+          back
       end
 
-      input = gets.chomp
+      user_reply = gets.chomp
     end
 
   end
