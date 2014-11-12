@@ -13,11 +13,10 @@ class TodoApp < CommandLineApp
   def list
     case @projects.length
       when 0
-        puts "Projects:\n none"
+        puts "Projects:\n  none"
       else
-        puts "Projects:\n " + @projects.join()
+        puts "Projects:\n  #{@projects.join(", ")}"
     end
-
   end
 
   def create
@@ -26,26 +25,52 @@ class TodoApp < CommandLineApp
     @projects << project_name
   end
 
-  def edit
+  def rename
     puts "Please enter the project name to rename:\n"
     project_name = gets.chomp
     puts "Please enter the new project name:\n"
     new_project_name = gets.chomp
+    puts "Projects:\n  #{new_project_name}"
     @projects << new_project_name
   end
 
+  def delete
+    puts "Please enter the project name to delete:\n"
+    project_to_delete = gets.chomp
+    @projects.delete_if {|project| project == project_to_delete}
+    list
+  end
+
+  def edit_project
+    project_to_edit = gets.chomp
+    puts "Editing Project:  #{project_to_edit}"
+  end
+
+  def list_tasks
+    puts "'list' to list tasks"
+  end
+
+
+  def menu
+    looping = true
+    while looping
+      input = gets.chomp
+
+      if input == "edit_project"
+        edit_project
+      elsif input == "list_tasks"
+        list_tasks
+      else input == "quit"
+        break
+      end
+    end
+  end
 
   def run
     puts "Welcome"
     puts "'list' to list projects"
     puts "'create' to create a new project"
-    puts "'edit' to edit a project"
-    # puts "Projects:\n  none"
-    # puts "Please enter the new project name:\n"
-    # puts "Projects:\n  Chores"
-    # puts "Please enter the project name to rename:\n"
-    # puts "Projects:\n  Groceries"
-    # puts "Please enter the project name to delete:\n"
+    puts "'rename' to rename a project"
 
     puts "Please enter: "
     input = gets.chomp
@@ -57,22 +82,20 @@ class TodoApp < CommandLineApp
           list
         when "create"
           create
-        when "edit"
-          edit
+        when "rename"
+          rename
+        when "delete"
+          delete
+        # when "edit_project"
+        #   edit_project
+        # else "list_tasks"
+        #   list_tasks
+
       end
 
       input = gets.chomp
     end
 
-
-  # def delete
-  #   puts "Please enter the project name to delete:\n"
-  #   puts "Projects:\n  none"
-  # end
-
-
   end
-
-
 
 end
